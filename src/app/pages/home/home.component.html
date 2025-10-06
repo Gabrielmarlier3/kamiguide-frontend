@@ -1,0 +1,32 @@
+<app-header></app-header>
+<section
+  class="from-background via-background to-secondary/20 relative overflow-hidden bg-gradient-to-br"
+>
+  <div class="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+    <div class="relative z-10 max-w-4xl">
+      <h1 class="text-foreground text-4xl font-bold tracking-tight text-balance sm:text-6xl">
+        Welcome to <span class="text-primary">KamiGuide</span>
+      </h1>
+      <p class="text-muted-foreground mt-6 max-w-2xl text-xl text-pretty">
+        Your ultimate destination for anime recommendations, reviews, and community discussions.
+        Discover your next favorite series in our cozy corner of the anime universe.
+      </p>
+      <div class="mt-8 flex gap-4">
+        <a
+          routerLink="/explore"
+          class="bg-primary hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-6 py-3 text-lg font-medium text-white"
+        >
+          Explore Anime
+        </a>
+        <a
+          routerLink="/community"
+          class="text-foreground border-border hover:bg-accent inline-flex items-center justify-center rounded-md border px-6 py-3 text-lg font-medium"
+        >
+          Join Community
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<app-recommendations></app-recommendations>
+<app-popular-anime></app-popular-anime>
