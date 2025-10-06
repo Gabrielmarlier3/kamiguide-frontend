@@ -8,6 +8,7 @@ import { StaffDto } from '../../service/anime/dto/staff-recommendation.dto'
 
 @Component({
   selector: 'app-recommendations',
+  standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './recommendations.component.html',
   styleUrl: './recommendations.component.css',
