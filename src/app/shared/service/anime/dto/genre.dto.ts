@@ -1,6 +1,7 @@
 export interface GenreDetailDto {
   mal_id: number
   title: string
+  title_english: string
   image_url: string
   score: number
   season: string

@@ -1,0 +1,134 @@
+<app-header></app-header>
+<section class="py-12 px-4 sm:px-6 lg:px-8">
+  <div class="container mx-auto">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-foreground mb-4 capitalize">{{ genre }}</h1>
+      <p class="text-lg text-muted-foreground">
+        Showing {{ from }}-{{ to }} of {{ totalResults }} anime titles
+      </p>
+    </div>
+
+    <div class="bg-card border border-border rounded-lg p-6 mb-8">
+      <div class="flex items-center gap-2 mb-4">
+        <svg class="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M6 12h12M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <h3 class="text-sm font-medium text-foreground">Filters</h3>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 items-end">
+        <div>
+          <label class="text-xs text-muted-foreground mb-2 block">Year</label>
+          <input
+            type="number"
+            [(ngModel)]="selectedYear"
+            placeholder="e.g. 2024"
+            class="w-full h-8 px-2 border rounded text-sm bg-background text-foreground"
+            min="1900"
+            [max]="maxYear"
+          />
+        </div>
+
+        <div>
+          <label class="text-xs text-muted-foreground mb-2 block">Minimum Score</label>
+          <input
+            type="number"
+            [(ngModel)]="selectedScore"
+            placeholder="0 - 10"
+            class="w-full h-8 px-2 border rounded text-sm bg-background text-foreground"
+            min="0"
+            max="10"
+          />
+        </div>
+
+        <div>
+          <label class="text-xs text-muted-foreground mb-2 block">Type</label>
+          <select
+            [(ngModel)]="selectedType"
+            class="w-full h-8 px-2 border rounded text-sm bg-background text-foreground"
+          >
+            <option value="all">All Types</option>
+            <option value="series">Series</option>
+            <option value="movie">Movie</option>
+          </select>
+        </div>
+
+        <div class="col-span-2 md:col-span-2 flex justify-end">
+          <button
+            class="h-8 px-4 rounded bg-primary text-primary-foreground hover:opacity-90"
+            (click)="applyFilters()"
+          >
+            Apply filters
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @if (loading) {
+      <p class="text-muted-foreground">Loading...</p>
+    } @else {
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
+        @for (anime of animes; track anime.mal_id) {
+          <a class="group cursor-pointer bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-primary/20">
+            <div class="relative aspect-[3/4] overflow-hidden rounded-t-lg">
+              <img [src]="anime.image_url || '/placeholder.svg'" [alt]="anime.title_english" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+              <div class="absolute top-2 right-2 bg-background/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-medium text-primary">
+                ★ {{ anime.score }}
+              </div>
+            </div>
+            <div class="p-3">
+              <h3 class="font-medium text-foreground text-sm line-clamp-2 group-hover:text-primary transition-colors mb-2">
+                {{ anime.title_english }}
+              </h3>
+              <p class="text-xs text-muted-foreground mb-2">{{ anime.year }}</p>
+              <div class="flex flex-wrap gap-1">
+                <span class="text-xs px-1.5 py-0.5 rounded bg-secondary/40 border border-border">{{ anime.status }}</span>
+                <span class="text-xs px-1.5 py-0.5 rounded border border-border">{{ anime.type }}</span>
+                <span class="text-xs px-1.5 py-0.5 rounded border border-border">{{ anime.season }}</span>
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+
+      @if (totalPages > 1) {
+        <div class="flex items-center justify-center gap-2">
+          <button
+            class="px-3 py-1 border rounded text-muted-foreground hover:text-foreground disabled:opacity-50"
+            [disabled]="page === 1"
+            (click)="changePage(page - 1)"
+          >
+            ‹
+          </button>
+
+          @if (hasLeftEllipsis) {
+            <button class="px-2 py-1 text-muted-foreground hover:text-foreground" (click)="jumpToPageViaPrompt('left')">…</button>
+          }
+
+          @for (p of pageWindow; track p) {
+            <button
+              class="px-3 py-1 border rounded"
+              [class.bg-primary]="p === page"
+              [class.text-primary-foreground]="p === page"
+              [class.text-muted-foreground]="p !== page"
+              (click)="changePage(p)"
+            >
+              {{ p }}
+            </button>
+          }
+
+          @if (hasRightEllipsis) {
+            <button class="px-2 py-1 text-muted-foreground hover:text-foreground" (click)="jumpToPageViaPrompt('right')">…</button>
+          }
+
+          <button
+            class="px-3 py-1 border rounded text-muted-foreground hover:text-foreground disabled:opacity-50"
+            [disabled]="page === totalPages"
+            (click)="changePage(page + 1)"
+          >
+            ›
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>
+<app-footer></app-footer>

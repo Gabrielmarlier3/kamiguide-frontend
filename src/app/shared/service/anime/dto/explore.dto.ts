@@ -3,7 +3,7 @@ export interface ExploreResponseDto {
   image: string
 }
 
-export interface ExploreListResponseDto {
+export interface ExploreListResponse {
   payload: ExploreResponseDto[]
   fetchedAt: string
 }

@@ -7,6 +7,7 @@ import {FooterComponent} from '../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [RouterLink, AppHeaderComponent, RecommendationsComponent, PopularAnimeComponent, FooterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

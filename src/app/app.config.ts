@@ -1,17 +1,104 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core'
-import { provideRouter } from '@angular/router'
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
-import { routes } from './app.routes'
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser'
-import { LucideAngularModule, Bookmark, Search, User } from 'lucide-angular'
-import { provideHttpClient } from '@angular/common/http'
+import { routes } from './app.routes';
+
+// Lucide Angular
+import {
+  LucideAngularModule,
+  Bookmark,
+  Baby,
+  Swords,
+  Sword,
+  Map,
+  Trophy,
+  Microscope,
+  Laugh,
+  Drama,
+  Wand,
+  Utensils,
+  Skull,
+  Search,
+  Heart,
+  Rocket,
+  Coffee,
+  Dumbbell,
+  MoonStar,
+  HatGlasses,
+  Hourglass,
+  Landmark,
+  Earth,
+  HandFist,
+  Cpu,
+  Stethoscope,
+  Shield,
+  Music,
+  Crown,
+  Brain,
+  Flag,
+  RefreshCcw,
+  GraduationCap,
+  Axe,
+  Clock,
+  Droplet,
+  Gamepad2,
+  User,
+  Users,
+  Sparkles,
+  Flame,
+} from 'lucide-angular';
+
+// Agrupando todos os ícones usados no projeto
+const lucideIcons = {
+  Bookmark,
+  Baby,
+  Swords,
+  Sword,
+  Map,
+  Trophy,
+  Laugh,
+  Drama,
+  Wand,
+  Utensils,
+  Skull,
+  Search,
+  Heart,
+  Rocket,
+  Coffee,
+  Dumbbell,
+  MoonStar,
+  Hourglass,
+  Landmark,
+  Earth,
+  HandFist,
+  Cpu,
+  Stethoscope,
+  Shield,
+  Music,
+  Crown,
+  Brain,
+  Flag,
+  RefreshCcw,
+  GraduationCap,
+  Axe,
+  Clock,
+  Droplet,
+  Gamepad2, User,
+  Users,
+  Sparkles,
+  Flame,
+  HatGlasses,
+  Microscope
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(),
-    importProvidersFrom(LucideAngularModule.pick({ Bookmark, Search, User })),
+    provideHttpClient(withFetch()),
+    importProvidersFrom(LucideAngularModule.pick(lucideIcons)),
   ],
-}
+};
