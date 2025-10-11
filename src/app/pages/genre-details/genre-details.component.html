@@ -125,6 +125,7 @@
       <div class="mb-12 grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-5">
         @for (anime of animes; track anime.mal_id) {
           <a
+            [routerLink]="['/anime', anime.mal_id]"
             class="group bg-card border-border hover:border-primary/20 cursor-pointer overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-lg"
           >
             <div class="relative aspect-[3/4] overflow-hidden rounded-t-lg">
@@ -141,19 +142,19 @@
             </div>
             <div class="p-3">
               <h3
-                class="text-foreground group-hover:text-primary mb-2 line-clamp-2 text-sm font-medium transition-colors"
+                class="text-foreground group-hover:text-primary mb-2 line-clamp-2 text-sm font-medium transition-colors" translate="no"
               >
                 {{ anime.title }}
               </h3>
               <p class="text-muted-foreground mb-2 text-xs">{{ anime.year }}</p>
               <div class="flex flex-wrap gap-1">
-                <span class="bg-secondary/40 border-border rounded border px-1.5 py-0.5 text-xs">{{
+                <span class="bg-secondary/40 border-border rounded border px-1.5 py-0.5 text-xs" translate="no">{{
                   anime.status
                 }}</span>
                 <span class="border-border rounded border px-1.5 py-0.5 text-xs">{{
                   anime.type
                 }}</span>
-                <span class="border-border rounded border px-1.5 py-0.5 text-xs">{{
+                <span class="border-border rounded border px-1.5 py-0.5 text-xs" translate="no">{{
                   anime.season
                 }}</span>
               </div>

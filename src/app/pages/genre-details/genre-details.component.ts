@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core'
-import {ActivatedRoute} from '@angular/router'
+import {ActivatedRoute, RouterLink} from '@angular/router'
 import {CommonModule} from '@angular/common'
 import {FormsModule} from '@angular/forms'
 import {AnimeService} from '../../shared/service/anime/anime.service'
@@ -21,7 +21,8 @@ import {MatDatepicker} from '@angular/material/datepicker';
     FooterComponent,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    RouterLink
   ],
   templateUrl: './genre-details.component.html',
   styleUrl: './genre-details.component.css',
