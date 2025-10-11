@@ -8,7 +8,6 @@ export interface StaffDto {
   mal_id: number
   image_url: string
   title: string
-  title_english: string
   year: string
   score: string
   episodes: string

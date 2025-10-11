@@ -7,7 +7,6 @@ export interface GenreDto {
 export interface SearchResponseDto {
   mal_id: number
   title: string
-  title_english: string
   year: number
   episodes: number
   status: string

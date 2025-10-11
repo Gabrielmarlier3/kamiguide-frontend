@@ -69,14 +69,14 @@
         @for (anime of animes; track anime.mal_id) {
           <a class="group cursor-pointer bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-primary/20">
             <div class="relative aspect-[3/4] overflow-hidden rounded-t-lg">
-              <img [src]="anime.image_url || '/placeholder.svg'" [alt]="anime.title_english" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+              <img [src]="anime.image_url || '/placeholder.svg'" [alt]="anime.title" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
               <div class="absolute top-2 right-2 bg-background/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-medium text-primary">
                 ★ {{ anime.score }}
               </div>
             </div>
             <div class="p-3">
               <h3 class="font-medium text-foreground text-sm line-clamp-2 group-hover:text-primary transition-colors mb-2">
-                {{ anime.title_english }}
+                {{ anime.title }}
               </h3>
               <p class="text-xs text-muted-foreground mb-2">{{ anime.year }}</p>
               <div class="flex flex-wrap gap-1">
