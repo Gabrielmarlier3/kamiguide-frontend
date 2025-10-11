@@ -1,16 +1,28 @@
-import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
-import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'
-import { AnimeService } from '../../shared/service/anime/anime.service'
-import { GenreDetailDto, GenreSearchResponseDto } from '../../shared/service/anime/dto/genre.dto'
-import { AppHeaderComponent } from '../../shared/components/header/header.component'
-import { FooterComponent } from '../../shared/components/footer/footer.component'
+import {Component, OnInit} from '@angular/core'
+import {ActivatedRoute} from '@angular/router'
+import {CommonModule} from '@angular/common'
+import {FormsModule} from '@angular/forms'
+import {AnimeService} from '../../shared/service/anime/anime.service'
+import {GenreDetailDto, GenreSearchResponseDto} from '../../shared/service/anime/dto/genre.dto'
+import {AppHeaderComponent} from '../../shared/components/header/header.component'
+import {FooterComponent} from '../../shared/components/footer/footer.component'
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-genre-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, AppHeaderComponent, FooterComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AppHeaderComponent,
+    FooterComponent,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
   templateUrl: './genre-details.component.html',
   styleUrl: './genre-details.component.css',
 })
@@ -28,6 +40,15 @@ export class GenreDetailsComponent implements OnInit {
 
   yearDisplay = '';
   selectedYear: number | 'all' = 'all'
+  currentYear = new Date().getFullYear();
+  minDate = new Date(1900, 0, 1);
+  maxDate = new Date(this.currentYear, 11, 31);
+  yearFilter = (d: Date | null) => {
+    if (!d) return false;
+    const y = d.getFullYear();
+    return y >= 1900 && y <= this.currentYear;
+  };
+
   selectedScore: number | 'all' = 'all'
   selectedType: 'all' | 'series' | 'movie' = 'all'
   maxYear = new Date().getFullYear() + 1
@@ -39,7 +60,8 @@ export class GenreDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private animeService: AnimeService,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -91,9 +113,11 @@ export class GenreDetailsComponent implements OnInit {
     picker.open();
   }
 
-  onYearSelected(date: Date, picker: any) {
-    this.selectedYear = date.getFullYear();
-    this.yearDisplay = String(this.selectedYear);
+  onYearSelected(event: Date, picker: MatDatepicker<Date>) {
+    const y = event.getFullYear();
+    if (y > this.currentYear || y < 1900) return;
+    this.selectedYear = y;
+    this.yearDisplay = String(y);
     picker.close();
   }
 
@@ -116,5 +140,10 @@ export class GenreDetailsComponent implements OnInit {
     this.pageWindow = arr
     this.hasLeftEllipsis = start > 1
     this.hasRightEllipsis = end < this.totalPages
+  }
+
+  clearYear() {
+    this.selectedYear = 'all';
+    this.yearDisplay = '';
   }
 }
