@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common'
 import { AppHeaderComponent } from '../../shared/components/header/header.component'
 import { FooterComponent } from '../../shared/components/footer/footer.component'
 import { AnimeService } from '../../shared/service/anime/anime.service'
-import { AnimeDetailsDto, AnimeDetailsResponseDto } from '../../shared/service/anime/dto/anime-details.dto'
+import {
+  AnimeDetailsDto,
+  AnimeDetailsResponseDto,
+} from '../../shared/service/anime/dto/anime-details.dto'
 
 @Component({
   selector: 'app-anime-details',
@@ -18,7 +21,10 @@ export class AnimeDetailsComponent implements OnInit {
   isFavorited = false
   showAllGenres = false
 
-  constructor(private route: ActivatedRoute, private animeService: AnimeService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private animeService: AnimeService,
+  ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'))

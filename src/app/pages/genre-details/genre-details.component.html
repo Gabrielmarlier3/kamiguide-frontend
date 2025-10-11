@@ -26,39 +26,48 @@
         <!-- Filtros centralizados -->
         <div class="flex flex-1 gap-4">
           <div class="flex-1">
-            <label class="text-xs text-muted-foreground mb-1 block">Year</label>
+            <label class="text-muted-foreground mb-1 block text-xs">Year</label>
 
             <div class="relative">
               <input
                 type="text"
                 [(ngModel)]="yearDisplay"
                 placeholder="e.g. 2024"
-                class="w-full h-8 px-2 pr-9 border rounded text-sm bg-background text-foreground"
+                class="bg-background text-foreground h-8 w-full rounded border px-2 pr-9 text-sm"
                 readonly
               />
 
               @if (yearDisplay) {
                 <button
-
-                type="button"
-                class="absolute right-8 top-1.5 inline-flex items-center justify-center w-5 h-5 opacity-80 hover:opacity-100"
-                (click)="clearYear()"
-                aria-label="Clear year"
-              >
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                  <path d="M6 6l12 12M18 6l-12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </button>}
+                  type="button"
+                  class="absolute top-1.5 right-8 inline-flex h-5 w-5 items-center justify-center opacity-80 hover:opacity-100"
+                  (click)="clearYear()"
+                  aria-label="Clear year"
+                >
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M6 6l12 12M18 6l-12 12"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+              }
 
               <button
                 type="button"
-                class="absolute right-2 top-1.5 inline-flex items-center justify-center w-5 h-5 opacity-80 hover:opacity-100"
+                class="absolute top-1.5 right-2 inline-flex h-5 w-5 items-center justify-center opacity-80 hover:opacity-100"
                 (click)="openYearPicker(picker)"
                 aria-label="Pick year"
               >
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                  <path d="M7 2v3M17 2v3M3 10h18M4 6h16a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 2v3M17 2v3M3 10h18M4 6h16a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
                 </svg>
               </button>
 
@@ -80,8 +89,6 @@
               ></mat-datepicker>
             </div>
           </div>
-
-
 
           <div class="flex-1">
             <label class="text-muted-foreground mb-1 block text-xs">Minimum Score</label>
@@ -142,15 +149,18 @@
             </div>
             <div class="p-3">
               <h3
-                class="text-foreground group-hover:text-primary mb-2 line-clamp-2 text-sm font-medium transition-colors" translate="no"
+                class="text-foreground group-hover:text-primary mb-2 line-clamp-2 text-sm font-medium transition-colors"
+                translate="no"
               >
                 {{ anime.title }}
               </h3>
               <p class="text-muted-foreground mb-2 text-xs">{{ anime.year }}</p>
               <div class="flex flex-wrap gap-1">
-                <span class="bg-secondary/40 border-border rounded border px-1.5 py-0.5 text-xs" translate="no">{{
-                  anime.status
-                }}</span>
+                <span
+                  class="bg-secondary/40 border-border rounded border px-1.5 py-0.5 text-xs"
+                  translate="no"
+                  >{{ anime.status }}</span
+                >
                 <span class="border-border rounded border px-1.5 py-0.5 text-xs">{{
                   anime.type
                 }}</span>

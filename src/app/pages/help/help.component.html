@@ -1,0 +1,77 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
+  <app-header></app-header>
+
+  <main class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mb-12 text-center">
+      <h1 class="mb-4 text-4xl font-bold text-white">Need Help?</h1>
+      <p class="text-xl text-slate-300">
+        Find answers to common questions and learn how to make the most of KamiGuide
+      </p>
+    </div>
+
+    <div class="mb-12 grid gap-8 md:grid-cols-2">
+      @for (section of helpSections; track section.title) {
+        <div class="rounded-xl border border-slate-700 bg-slate-800/50 p-6">
+          <div class="flex items-start gap-4">
+            <div class="rounded-lg bg-purple-500/20 p-3">
+              <lucide-angular
+                [name]="section.icon"
+                class="h-6 w-6 text-purple-400"
+              ></lucide-angular>
+            </div>
+            <div>
+              <h3 class="mb-3 text-xl font-semibold text-white">{{ section.title }}</h3>
+              <p class="leading-relaxed text-slate-300">{{ section.content }}</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="rounded-xl border border-slate-700 bg-slate-800/50 p-8 backdrop-blur-sm">
+      <h2 class="mb-6 text-2xl font-semibold text-purple-400">Frequently Asked Questions</h2>
+
+      <div class="space-y-6">
+        <div>
+          <h3 class="mb-2 text-lg font-semibold text-white">How do I save my favorite anime?</h3>
+          <p class="text-slate-300">
+            Currently, we're working on a favorites system. Stay tuned for updates!
+          </p>
+        </div>
+
+        <div>
+          <h3 class="mb-2 text-lg font-semibold text-white">
+            Can I suggest new anime to be added?
+          </h3>
+          <p class="text-slate-300">
+            Yes! Use our "Report a Bug" page to send suggestions for new anime additions.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="mb-2 text-lg font-semibold text-white">How often is the calendar updated?</h3>
+          <p class="text-slate-300">
+            Our calendar is updated weekly with the latest anime release schedules.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="mb-2 text-lg font-semibold text-white">Is KamiGuide free to use?</h3>
+          <p class="text-slate-300">
+            Yes, KamiGuide is completely free to use. We're passionate about making anime discovery
+            accessible to everyone.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-8 rounded-lg border border-purple-500/20 bg-purple-500/10 p-4">
+        <p class="text-center text-purple-300">
+          Still need help? Feel free to reach out to us through our social media channels in the
+          Community section!
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

@@ -1,8 +1,12 @@
-import {Routes} from '@angular/router'
-import {ExploreGenresComponent} from './pages/explore-genres/explore-genres.component'
-import {HomeComponent} from './pages/home/home.component'
-import {GenreDetailsComponent} from './pages/genre-details/genre-details.component'
-import {AnimeDetailsComponent} from './pages/anime-details/anime-details.component';
+import { Routes } from '@angular/router'
+import { ExploreGenresComponent } from './pages/explore-genres/explore-genres.component'
+import { HomeComponent } from './pages/home/home.component'
+import { GenreDetailsComponent } from './pages/genre-details/genre-details.component'
+import { AnimeDetailsComponent } from './pages/anime-details/anime-details.component'
+import { AboutComponent } from './pages/about/about.component'
+import { SearchComponent } from './pages/search/search.component'
+import { HelpPageComponent } from './pages/help/help.component'
+import {ReportPageComponent} from './pages/report/report.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +23,22 @@ export const routes: Routes = [
   },
   {
     path: 'anime/:id',
-    component: AnimeDetailsComponent
-  }
+    component: AnimeDetailsComponent,
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+  },
+  {
+    path: 'search',
+    component: SearchComponent,
+  },
+  {
+    path: 'help',
+    component: HelpPageComponent,
+  },
+  {
+    path: 'report',
+    component: ReportPageComponent
+  },
 ]

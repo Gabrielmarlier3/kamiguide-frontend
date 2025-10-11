@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core'
-import {ActivatedRoute, RouterLink} from '@angular/router'
-import {CommonModule} from '@angular/common'
-import {FormsModule} from '@angular/forms'
-import {AnimeService} from '../../shared/service/anime/anime.service'
-import {GenreDetailDto, GenreSearchResponseDto} from '../../shared/service/anime/dto/genre.dto'
-import {AppHeaderComponent} from '../../shared/components/header/header.component'
-import {FooterComponent} from '../../shared/components/footer/footer.component'
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatDatepicker} from '@angular/material/datepicker';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, RouterLink } from '@angular/router'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
+import { AnimeService } from '../../shared/service/anime/anime.service'
+import { GenreDetailDto, GenreSearchResponseDto } from '../../shared/service/anime/dto/genre.dto'
+import { AppHeaderComponent } from '../../shared/components/header/header.component'
+import { FooterComponent } from '../../shared/components/footer/footer.component'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatInputModule } from '@angular/material/input'
+import { MatNativeDateModule } from '@angular/material/core'
+import { MatDatepicker } from '@angular/material/datepicker'
 
 @Component({
   selector: 'app-genre-details',
@@ -22,7 +22,7 @@ import {MatDatepicker} from '@angular/material/datepicker';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './genre-details.component.html',
   styleUrl: './genre-details.component.css',
@@ -39,16 +39,16 @@ export class GenreDetailsComponent implements OnInit {
   from = 0
   to = 0
 
-  yearDisplay = '';
+  yearDisplay = ''
   selectedYear: number | 'all' = 'all'
-  currentYear = new Date().getFullYear();
-  minDate = new Date(1900, 0, 1);
-  maxDate = new Date(this.currentYear, 11, 31);
+  currentYear = new Date().getFullYear()
+  minDate = new Date(1900, 0, 1)
+  maxDate = new Date(this.currentYear, 11, 31)
   yearFilter = (d: Date | null) => {
-    if (!d) return false;
-    const y = d.getFullYear();
-    return y >= 1900 && y <= this.currentYear;
-  };
+    if (!d) return false
+    const y = d.getFullYear()
+    return y >= 1900 && y <= this.currentYear
+  }
 
   selectedScore: number | 'all' = 'all'
   selectedType: 'all' | 'series' | 'movie' = 'all'
@@ -61,8 +61,7 @@ export class GenreDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private animeService: AnimeService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -111,15 +110,15 @@ export class GenreDetailsComponent implements OnInit {
   }
 
   openYearPicker(picker: any) {
-    picker.open();
+    picker.open()
   }
 
   onYearSelected(event: Date, picker: MatDatepicker<Date>) {
-    const y = event.getFullYear();
-    if (y > this.currentYear || y < 1900) return;
-    this.selectedYear = y;
-    this.yearDisplay = String(y);
-    picker.close();
+    const y = event.getFullYear()
+    if (y > this.currentYear || y < 1900) return
+    this.selectedYear = y
+    this.yearDisplay = String(y)
+    picker.close()
   }
 
   jumpToPageViaPrompt(side: 'left' | 'right'): void {
@@ -144,7 +143,7 @@ export class GenreDetailsComponent implements OnInit {
   }
 
   clearYear() {
-    this.selectedYear = 'all';
-    this.yearDisplay = '';
+    this.selectedYear = 'all'
+    this.yearDisplay = ''
   }
 }

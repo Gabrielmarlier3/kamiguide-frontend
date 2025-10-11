@@ -23,12 +23,16 @@
             <div class="flex h-full min-w-0 flex-1 flex-col">
               <div class="mb-2 flex items-start justify-between">
                 <h3
-                  class="text-card-foreground group-hover:text-primary text-sm font-semibold text-balance transition-colors" translate="no"
+                  class="text-card-foreground group-hover:text-primary text-sm font-semibold text-balance transition-colors"
+                  translate="no"
                 >
                   {{ anime.title }}
                 </h3>
                 <div class="flex items-center gap-1">
-                  ⭐
+                  <lucide-angular
+                    name="star"
+                    class="h-4 w-4 text-yellow-500 transition-transform duration-300 group-hover:scale-110"
+                  ></lucide-angular>
                   <span class="text-muted-foreground text-xs" translate="no">
                     {{ anime.score }}
                   </span>
@@ -43,7 +47,10 @@
                 </div>
                 <div class="flex flex-wrap gap-1">
                   @for (g of anime.genres.slice(0, 3); track g.mal_id) {
-                    <span class="text-muted-foreground rounded border px-1 py-0 text-xs" translate="no">
+                    <span
+                      class="text-muted-foreground rounded border px-1 py-0 text-xs"
+                      translate="no"
+                    >
                       {{ g.name }}
                     </span>
                   }

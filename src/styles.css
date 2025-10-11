@@ -115,10 +115,15 @@
 }
 
 /*For genre-details calender options*/
-.year-picker .mat-calendar{background:var(--card);color:var(--foreground);}
+.year-picker .mat-calendar {
+  background: var(--card);
+  color: var(--foreground);
+}
 .year-picker .mat-calendar-body-selected,
-.year-picker .mat-calendar-body-active{background:var(--primary);color:var(--primary-foreground);}
-
+.year-picker .mat-calendar-body-active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
 
 @layer base {
   * {
