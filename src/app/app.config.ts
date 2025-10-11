@@ -1,9 +1,10 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core'
+import { provideRouter } from '@angular/router'
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser'
+import { provideHttpClient, withFetch } from '@angular/common/http'
+import { provideAnimations } from '@angular/platform-browser/animations'
 
-import { routes } from './app.routes';
+import { routes } from './app.routes'
 
 // Lucide Angular
 import {
@@ -48,7 +49,7 @@ import {
   Users,
   Sparkles,
   Flame,
-} from 'lucide-angular';
+} from 'lucide-angular'
 
 // Agrupando todos os ícones usados no projeto
 const lucideIcons = {
@@ -85,13 +86,14 @@ const lucideIcons = {
   Axe,
   Clock,
   Droplet,
-  Gamepad2, User,
+  Gamepad2,
+  User,
   Users,
   Sparkles,
   Flame,
   HatGlasses,
-  Microscope
-};
+  Microscope,
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -100,5 +102,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
     importProvidersFrom(LucideAngularModule.pick(lucideIcons)),
+    provideAnimations(),
   ],
-};
+}

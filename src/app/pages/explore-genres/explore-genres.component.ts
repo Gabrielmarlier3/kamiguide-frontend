@@ -1,12 +1,12 @@
-import { Flower, Ghost, Heart, Music, Sparkles, Trophy, User, Zap } from 'lucide-angular';
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
-import { AnimeService } from '../../shared/service/anime/anime.service';
-import { AppHeaderComponent } from '../../shared/components/header/header.component';
-import { FooterComponent } from '../../shared/components/footer/footer.component';
-import {ExploreListResponse, ExploreResponseDto} from '../../shared/service/anime/dto/explore.dto';
+import { Flower, Ghost, Heart, Music, Sparkles, Trophy, User, Zap } from 'lucide-angular'
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { RouterLink } from '@angular/router'
+import { LucideAngularModule } from 'lucide-angular'
+import { AnimeService } from '../../shared/service/anime/anime.service'
+import { AppHeaderComponent } from '../../shared/components/header/header.component'
+import { FooterComponent } from '../../shared/components/footer/footer.component'
+import { ExploreListResponse, ExploreResponseDto } from '../../shared/service/anime/dto/explore.dto'
 
 @Component({
   selector: 'app-explore-genres',
@@ -15,8 +15,8 @@ import {ExploreListResponse, ExploreResponseDto} from '../../shared/service/anim
   templateUrl: './explore-genres.component.html',
 })
 export class ExploreGenresComponent implements OnInit {
-  genres: ExploreResponseDto[] = [];
-  loading = true;
+  genres: ExploreResponseDto[] = []
+  loading = true
   // explore.component.ts
   iconMap: Record<string, string> = {
     Action: 'swords',
@@ -59,12 +59,12 @@ export class ExploreGenresComponent implements OnInit {
     Seinen: 'users',
     Shoujo: 'sparkles',
     Shounen: 'flame',
-  };
+  }
 
   constructor(
     private animeService: AnimeService,
     private cdr: ChangeDetectorRef,
-    private zone: NgZone
+    private zone: NgZone,
   ) {}
 
   ngOnInit(): void {
@@ -72,17 +72,17 @@ export class ExploreGenresComponent implements OnInit {
       next: (res: ExploreListResponse) => {
         // garante que a atualização roda dentro da Zone
         this.zone.run(() => {
-          this.genres = res.payload;
-          this.loading = false;
-          this.cdr.markForCheck();
-        });
+          this.genres = res.payload
+          this.loading = false
+          this.cdr.markForCheck()
+        })
       },
       error: () => {
         this.zone.run(() => {
-          this.loading = false;
-          this.cdr.markForCheck();
-        });
+          this.loading = false
+          this.cdr.markForCheck()
+        })
       },
-    });
+    })
   }
 }

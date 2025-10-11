@@ -1,19 +1,17 @@
-<section class="py-16 bg-secondary/10">
+<section class="bg-secondary/10 py-16">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-12">
-      <h2 class="text-3xl font-bold text-foreground mb-4">Popular Anime</h2>
-      <p class="text-muted-foreground text-lg">
-        Trending and highly-rated anime series and movies
-      </p>
+      <h2 class="text-foreground mb-4 text-3xl font-bold">Popular Anime</h2>
+      <p class="text-muted-foreground text-lg">Trending and highly-rated anime series and movies</p>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       @for (anime of animeList; track anime.mal_id) {
         <a
           [routerLink]="['/anime', anime.mal_id]"
-          class="group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg bg-card border border-border rounded-lg overflow-hidden"
+          class="group bg-card border-border cursor-pointer overflow-hidden rounded-lg border transition-all duration-300 hover:scale-105 hover:shadow-lg"
         >
-          <div class="p-4 flex gap-3 h-full">
+          <div class="flex h-full gap-3 p-4">
             <div class="flex-shrink-0">
               <img
                 [src]="anime.image_url || '/placeholder.svg'"
@@ -22,32 +20,30 @@
               />
             </div>
 
-            <div class="flex flex-col flex-1 min-w-0 h-full">
-              <div class="flex items-start justify-between mb-2">
+            <div class="flex h-full min-w-0 flex-1 flex-col">
+              <div class="mb-2 flex items-start justify-between">
                 <h3
-                  class="font-semibold text-card-foreground group-hover:text-primary transition-colors text-sm text-balance"
+                  class="text-card-foreground group-hover:text-primary text-sm font-semibold text-balance transition-colors"
                 >
                   {{ anime.title }}
                 </h3>
                 <div class="flex items-center gap-1">
                   ⭐
-                  <span class="text-xs text-muted-foreground">
+                  <span class="text-muted-foreground text-xs">
                     {{ anime.score }}
                   </span>
                 </div>
               </div>
 
               <div class="mt-auto">
-                <div class="flex items-center gap-2 mb-2">
-                  <span class="text-xs text-muted-foreground">
+                <div class="mb-2 flex items-center gap-2">
+                  <span class="text-muted-foreground text-xs">
                     {{ anime.status }}
                   </span>
                 </div>
                 <div class="flex flex-wrap gap-1">
                   @for (g of anime.genres.slice(0, 3); track g.mal_id) {
-                    <span
-                      class="border rounded px-1 py-0 text-xs text-muted-foreground"
-                    >
+                    <span class="text-muted-foreground rounded border px-1 py-0 text-xs">
                       {{ g.name }}
                     </span>
                   }
