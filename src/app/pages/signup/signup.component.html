@@ -1,0 +1,126 @@
+<app-header></app-header>
+<div
+  class="from-background via-background to-muted flex min-h-[88vh] items-center justify-center bg-gradient-to-br p-4"
+>
+  <div class="w-full max-w-md">
+    <div class="mb-8 text-center">
+      <h1 class="text-primary mb-2 text-4xl font-bold">KamiGuide</h1>
+      <p class="text-muted-foreground">Your anime companion</p>
+    </div>
+
+    <div class="border-border w-full max-w-md rounded-lg border">
+      <div class="space-y-1 p-6">
+        <h2 class="text-2xl font-bold">Create an account</h2>
+        <p class="text-muted-foreground text-sm">Enter your information to get started</p>
+      </div>
+
+      <form class="space-y-4 p-6" (ngSubmit)="submit()">
+        <div class="space-y-2">
+          <label class="text-sm" for="firstName">First Name</label>
+          <input
+            id="firstName"
+            type="text"
+            class="border-border bg-background h-10 w-full rounded border px-3"
+            placeholder="Gabriel"
+            [(ngModel)]="firstName"
+            name="firstName"
+            required
+            [disabled]="isLoading"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm" for="email">Email</label>
+          <div class="flex gap-2">
+            <input
+              id="email"
+              type="email"
+              class="border-border bg-background h-10 w-full flex-1 rounded border px-3"
+              placeholder="your@email.com"
+              [(ngModel)]="email"
+              name="email"
+              required
+              [disabled]="isLoading"
+            />
+            <button
+              type="button"
+              class="border-border bg-background text-foreground flex items-center justify-center h-10 w-10 rounded border disabled:opacity-50"
+              (click)="sendCode()"
+              [disabled]="isSendingCode || !email || resendIn > 0"
+              title="Send verification code"
+            >
+              @if (resendIn > 0) {
+                <span class="text-xs">{{ resendIn }}s</span>
+              } @else {
+                <lucide-angular
+                  name="mail"
+                  class="text-muted-foreground h-7 w-7 transition-transform duration-300 group-hover:scale-110"
+                ></lucide-angular>
+              }
+            </button>
+
+          </div>
+          @if (codeSent) {
+            <p class="text-muted-foreground text-xs">Verification code sent to your email</p>
+          }
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm" for="token">Verification Code</label>
+          <input
+            id="token"
+            type="text"
+            class="border-border bg-background h-10 w-full rounded border px-3"
+            placeholder="12345"
+            [ngModel]="token"
+            (ngModelChange)="onTokenInput($event)"
+            name="token"
+            required
+            maxlength="5"
+            [disabled]="isLoading"
+          />
+          <p class="text-muted-foreground text-xs">Enter the 5-digit code sent to your email</p>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm" for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            class="border-border bg-background h-10 w-full rounded border px-3"
+            placeholder="••••••••"
+            [(ngModel)]="password"
+            name="password"
+            required
+            minlength="8"
+            maxlength="20"
+            [disabled]="isLoading"
+          />
+          <p class="text-muted-foreground text-xs">Must be 8–20 characters</p>
+        </div>
+
+        @if (error) {
+          <p class="text-destructive text-sm">{{ error }}</p>
+        }
+        @if (info) {
+          <p class="text-sm text-green-400">{{ info }}</p>
+        }
+
+        <div class="flex flex-col gap-4 pt-2">
+          <button
+            type="submit"
+            class="bg-primary text-primary-foreground h-10 w-full rounded disabled:opacity-50"
+            [disabled]="!canSubmit()"
+          >
+            {{ isLoading ? 'Creating account...' : 'Sign up' }}
+          </button>
+          <p class="text-muted-foreground text-center text-sm">
+            Already have an account?
+            <a routerLink="/login" class="text-primary hover:underline">Sign in</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
