@@ -1,0 +1,206 @@
+<app-header></app-header>
+
+<main
+  class="container mx-auto min-h-[88vh] max-w-[80%] px-4 py-8"
+  [attr.inert]="modalDay ? '' : null"
+>
+  <div class="mb-8">
+    <h1 class="text-foreground mb-2 text-3xl font-bold">Anime Calendar</h1>
+    <p class="text-muted-foreground">Track your weekly anime schedule and never miss an episode</p>
+  </div>
+
+  @if (!isAuth) {
+    <div class="border-border bg-card rounded-lg border p-6 text-center">
+      <h2 class="text-foreground mb-2 text-xl font-semibold">You need to be signed in</h2>
+      <p class="text-muted-foreground">
+        Please <a routerLink="/login" class="text-primary underline">log in</a> to access your
+        calendar.
+      </p>
+    </div>
+  } @else {
+    @if (loading) {
+      <div class="text-muted-foreground">Loading your calendar...</div>
+    } @else {
+      @if (error) {
+        <div class="text-destructive mb-4">{{ error }}</div>
+      }
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
+        @for (d of daysOrder; track d.api) {
+          <div class="border-border bg-card rounded-lg border">
+            <div class="border-border flex items-center justify-between border-b p-3">
+              <div class="text-foreground text-sm font-medium">{{ d.label }}</div>
+              <button
+                type="button"
+                class="border-border hover:bg-accent/20 rounded border px-2 py-0.5 text-xs"
+                (click)="openDayModal(d.api)"
+                aria-label="Add anime to this day"
+              >
+                + Add
+              </button>
+            </div>
+
+            <div class="space-y-2 p-3">
+              @if ((userByDay[d.api] || []).length === 0) {
+                <div class="py-6 text-center">
+                  <p class="text-muted-foreground text-sm">No anime added</p>
+                </div>
+              } @else {
+                @for (u of userByDay[d.api]; track u.malId) {
+                  <div
+                    class="border-border/50 bg-card-foreground/5 hover:bg-accent/10 relative cursor-pointer rounded-lg border transition-colors"
+                    role="button"
+                    tabindex="0"
+                    (click)="goToAnime(u.malId)"
+                    (keydown.enter)="goToAnime(u.malId)"
+                  >
+                    <button
+                      type="button"
+                      class="text-muted-foreground hover:bg-accent/20 absolute top-2 right-2 h-6 w-6 rounded"
+                      title="Remove from your calendar"
+                      (click)="$event.stopPropagation(); removeAnime(u.malId)"
+                    >
+                      ✕
+                    </button>
+
+                    <div class="p-3">
+                      <div class="flex items-stretch gap-3">
+                        <img
+                          [src]="u.imageUrl || '/placeholder.svg'"
+                          [alt]="u.title"
+                          class="w-16 flex-shrink-0 self-stretch rounded object-cover md:w-20"
+                        />
+                        <div class="min-w-0 flex-1">
+                          <h4
+                            class="text-foreground line-clamp-3 text-sm font-medium md:line-clamp-4"
+                          >
+                            {{ u.title }}
+                          </h4>
+                          <div class="text-muted-foreground mt-1 text-xs">
+                            {{ u.releaseTime || '--:--' }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="border-border bg-card mt-6 rounded-lg border">
+        <div class="border-border border-b p-4">
+          <h3 class="text-foreground text-lg">This Week</h3>
+        </div>
+        <div class="grid grid-cols-2 gap-4 p-4 text-center md:grid-cols-4">
+          <div>
+            <p class="text-primary text-2xl font-bold">{{ totalEntries }}</p>
+            <p class="text-muted-foreground text-sm">Total Episodes</p>
+          </div>
+          <div>
+            <p class="text-primary text-2xl font-bold">{{ activeDays }}</p>
+            <p class="text-muted-foreground text-sm">Active Days</p>
+          </div>
+          <div>
+            <p class="text-primary text-2xl font-bold">{{ differentSeries }}</p>
+            <p class="text-muted-foreground text-sm">Different Series</p>
+          </div>
+          <div>
+            <p class="text-primary text-2xl font-bold">{{ avgPerDay }}</p>
+            <p class="text-muted-foreground text-sm">Avg per Day</p>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</main>
+
+@if (modalDay) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center"
+    (keydown.escape)="closeDayModal()"
+    tabindex="0"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="'day-modal-title'"
+  >
+    <div class="absolute inset-0 bg-black/50" (click)="closeDayModal()"></div>
+    <div class="border-border bg-card relative w-full max-w-lg rounded-lg border shadow-lg">
+      <div class="border-border flex items-center justify-between border-b p-3">
+        <h3 id="day-modal-title" class="text-foreground text-lg font-semibold">
+          Available on {{ modalDayLabel }}
+        </h3>
+        <button
+          type="button"
+          class="text-muted-foreground hover:bg-accent/20 rounded p-1"
+          (click)="closeDayModal()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">✕</span>
+        </button>
+      </div>
+
+      <div class="p-3">
+        <div class="mb-2 flex items-center justify-between">
+          <span class="text-muted-foreground text-xs">Select an anime</span>
+          <div class="flex items-center gap-2">
+            <button
+              class="border-border rounded border px-2 py-0.5 text-xs"
+              (click)="loadPublicDay(modalDay!, 'prev')"
+            >
+              ‹
+            </button>
+            <span class="text-muted-foreground text-xs">Page {{ pageByDay[modalDay!] || 1 }}</span>
+            <button
+              class="border-border rounded border px-2 py-0.5 text-xs"
+              (click)="loadPublicDay(modalDay!, 'next')"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+
+        @if (loadingDay[modalDay!]) {
+          <div class="text-muted-foreground text-sm">Loading...</div>
+        } @else {
+          @if (filteredAvailable(modalDay!).length === 0) {
+            <div class="text-muted-foreground text-sm">No results.</div>
+          } @else {
+            <div class="max-h-[70vh] space-y-2 overflow-y-auto pr-1">
+              @for (a of filteredAvailable(modalDay!); track a.malId) {
+                <div
+                  class="border-border/50 bg-card-foreground/5 flex min-h-[10vh] items-center justify-between rounded border p-2"
+                >
+                  <img
+                    [src]="a.imageUrl || '/placeholder.svg'"
+                    [alt]="a.title"
+                    class="w-16 flex-shrink-0 self-stretch rounded object-cover md:w-20"
+                  />
+                  <div class="flex min-w-0 flex-1 flex-col px-3">
+                    <div class="text-foreground text-sm leading-tight font-medium break-words">
+                      {{ a.title }}
+                    </div>
+                    <div class="text-muted-foreground mt-1 text-xs">
+                      {{ a.releaseTime || '--:--' }}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    class="border-border hover:bg-accent/20 rounded border px-2 py-0.5 text-xs"
+                    (click)="addAnime(modalDay!, a)"
+                  >
+                    Add
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+}
+
+<app-footer></app-footer>

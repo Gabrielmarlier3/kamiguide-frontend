@@ -1,0 +1,228 @@
+<app-header></app-header>
+<section class="px-4 py-12 sm:px-6 lg:px-8">
+  <div class="container mx-auto">
+    <div class="mb-8 text-center">
+      <h1 class="text-foreground mb-4 text-4xl font-bold capitalize">{{ genre }}</h1>
+      <p class="text-muted-foreground text-lg">
+        Showing {{ from }}-{{ to }} of {{ totalResults }} anime titles
+      </p>
+    </div>
+
+    <div class="bg-card border-border mb-8 rounded-lg border p-6">
+      <div class="flex items-center justify-between gap-6">
+        <!-- Filters Label -->
+        <div class="mt-4 flex shrink-0 items-center gap-2">
+          <svg class="text-muted-foreground h-4 w-4" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M3 6h18M6 12h12M10 18h4"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <h3 class="text-foreground text-sm font-medium">Filters</h3>
+        </div>
+
+        <!-- Filtros centralizados -->
+        <div class="flex flex-1 gap-4">
+          <div class="flex-1">
+            <label class="text-muted-foreground mb-1 block text-xs">Year</label>
+
+            <div class="relative">
+              <input
+                type="text"
+                [(ngModel)]="yearDisplay"
+                placeholder="e.g. 2024"
+                class="bg-background text-foreground h-8 w-full rounded border px-2 pr-9 text-sm"
+                readonly
+              />
+
+              @if (yearDisplay) {
+                <button
+                  type="button"
+                  class="absolute top-1.5 right-8 inline-flex h-5 w-5 items-center justify-center opacity-80 hover:opacity-100"
+                  (click)="clearYear()"
+                  aria-label="Clear year"
+                >
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M6 6l12 12M18 6l-12 12"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+              }
+
+              <button
+                type="button"
+                class="absolute top-1.5 right-2 inline-flex h-5 w-5 items-center justify-center opacity-80 hover:opacity-100"
+                (click)="openYearPicker(picker)"
+                aria-label="Pick year"
+              >
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 2v3M17 2v3M3 10h18M4 6h16a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </button>
+
+              <!-- input 'ancora' do datepicker -->
+              <input
+                matInput
+                class="sr-only"
+                [matDatepicker]="picker"
+                [min]="minDate"
+                [max]="maxDate"
+                [matDatepickerFilter]="yearFilter"
+              />
+
+              <mat-datepicker
+                #picker
+                startView="multi-year"
+                (yearSelected)="onYearSelected($event, picker)"
+                panelClass="year-picker"
+              ></mat-datepicker>
+            </div>
+          </div>
+
+          <div class="flex-1">
+            <label class="text-muted-foreground mb-1 block text-xs">Minimum Score</label>
+            <input
+              type="number"
+              [(ngModel)]="selectedScore"
+              placeholder="0 - 10"
+              class="bg-background text-foreground h-8 w-full rounded border px-2 text-sm"
+              min="0"
+              max="10"
+            />
+          </div>
+
+          <div class="flex-1">
+            <label class="text-muted-foreground mb-1 block text-xs">Type</label>
+            <select
+              [(ngModel)]="selectedType"
+              class="bg-background text-foreground h-8 w-full rounded border px-2 text-sm"
+            >
+              <option value="all">All Types</option>
+              <option value="series">Series</option>
+              <option value="movie">Movie</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-5 shrink-0">
+          <button
+            class="bg-primary text-primary-foreground h-8 rounded px-4 hover:opacity-90"
+            (click)="applyFilters()"
+          >
+            Apply filters
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @if (loading) {
+      <p class="text-muted-foreground">Loading...</p>
+    } @else {
+      <div class="mb-12 grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-5">
+        @for (anime of animes; track anime.mal_id) {
+          <a
+            [routerLink]="['/anime', anime.mal_id]"
+            class="group bg-card border-border hover:border-primary/20 cursor-pointer overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-lg"
+          >
+            <div class="relative aspect-[3/4] overflow-hidden rounded-t-lg">
+              <img
+                [src]="anime.image_url || '/placeholder.svg'"
+                [alt]="anime.title"
+                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div
+                class="bg-background/90 text-primary absolute top-2 right-2 rounded-full px-2 py-1 text-xs font-medium backdrop-blur-sm"
+              >
+                ★ {{ anime.score }}
+              </div>
+            </div>
+            <div class="p-3">
+              <h3
+                class="text-foreground group-hover:text-primary mb-2 line-clamp-2 text-sm font-medium transition-colors"
+                translate="no"
+              >
+                {{ anime.title }}
+              </h3>
+              <p class="text-muted-foreground mb-2 text-xs">{{ anime.year }}</p>
+              <div class="flex flex-wrap gap-1">
+                <span
+                  class="bg-secondary/40 border-border rounded border px-1.5 py-0.5 text-xs"
+                  translate="no"
+                  >{{ anime.status }}</span
+                >
+                <span class="border-border rounded border px-1.5 py-0.5 text-xs">{{
+                  anime.type
+                }}</span>
+                <span class="border-border rounded border px-1.5 py-0.5 text-xs" translate="no">{{
+                  anime.season
+                }}</span>
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+
+      @if (totalPages > 1) {
+        <div class="flex items-center justify-center gap-2">
+          <button
+            class="text-muted-foreground hover:text-foreground rounded border px-3 py-1 disabled:opacity-50"
+            [disabled]="page === 1"
+            (click)="changePage(page - 1)"
+          >
+            ‹
+          </button>
+
+          @if (hasLeftEllipsis) {
+            <button
+              class="text-muted-foreground hover:text-foreground px-2 py-1"
+              (click)="jumpToPageViaPrompt('left')"
+            >
+              …
+            </button>
+          }
+
+          @for (p of pageWindow; track p) {
+            <button
+              class="rounded border px-3 py-1"
+              [class.bg-primary]="p === page"
+              [class.text-primary-foreground]="p === page"
+              [class.text-muted-foreground]="p !== page"
+              (click)="changePage(p)"
+            >
+              {{ p }}
+            </button>
+          }
+
+          @if (hasRightEllipsis) {
+            <button
+              class="text-muted-foreground hover:text-foreground px-2 py-1"
+              (click)="jumpToPageViaPrompt('right')"
+            >
+              …
+            </button>
+          }
+
+          <button
+            class="text-muted-foreground hover:text-foreground rounded border px-3 py-1 disabled:opacity-50"
+            [disabled]="page === totalPages"
+            (click)="changePage(page + 1)"
+          >
+            ›
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>
+<app-footer></app-footer>

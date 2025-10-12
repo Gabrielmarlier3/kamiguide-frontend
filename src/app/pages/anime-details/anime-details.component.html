@@ -1,0 +1,128 @@
+<app-header></app-header>
+
+<section class="px-4 py-10 sm:px-6 lg:px-8">
+  <div class="container mx-auto">
+    @if (loading) {
+      <div class="text-muted-foreground">Loading...</div>
+    } @else if (anime) {
+      <div class="space-y-8">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div class="space-y-4 lg:col-span-1">
+            <div class="bg-card border-border overflow-hidden rounded-lg border">
+              <div class="relative aspect-[3/4]">
+                <img
+                  [src]="anime.image_url || '/placeholder.svg'"
+                  [alt]="anime.title"
+                  class="h-full w-full object-cover"
+                />
+                <div
+                  class="bg-background/90 absolute top-4 right-4 rounded-full px-3 py-1 backdrop-blur-sm"
+                >
+                  <div class="flex items-center gap-1">
+                    <span class="text-yellow-500">★</span>
+                    <span class="text-sm font-medium">{{ anime.score }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--            <button-->
+            <!--              (click)="toggleFavorite()"-->
+            <!--              class="border-border h-10 w-full rounded-md border transition-colors"-->
+            <!--              [class.bg-primary]="isFavorited"-->
+            <!--              [class.text-primary-foreground]="isFavorited"-->
+            <!--              [class.bg-muted]="!isFavorited"-->
+            <!--            >-->
+            <!--              <span class="mr-2">{{ isFavorited ? '♥' : '♡' }}</span>-->
+            <!--              {{ isFavorited ? 'Saved to Favorites' : 'Save to Favorites' }}-->
+            <!--            </button>-->
+
+            <div class="border-border bg-card rounded-lg border">
+              <div class="p-4">
+                <h3 class="text-foreground mb-3 text-sm font-medium">Genres</h3>
+                <div class="flex flex-wrap gap-2">
+                  @for (g of displayedGenres; track g.mal_id) {
+                    <span class="bg-secondary/40 border-border rounded border px-2 py-1 text-xs">{{
+                      g.name
+                    }}</span>
+                  }
+                  @if (remainingGenresCount > 0 && !showAllGenres) {
+                    <button
+                      class="border-border hover:bg-muted rounded border px-2 py-1 text-xs"
+                      (click)="showAllGenres = true"
+                    >
+                      +{{ remainingGenresCount }} more
+                    </button>
+                  }
+                  @if (showAllGenres && remainingGenresCount > 0) {
+                    <button
+                      class="border-border hover:bg-muted rounded border px-2 py-1 text-xs"
+                      (click)="showAllGenres = false"
+                    >
+                      Show less
+                    </button>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6 lg:col-span-2">
+            <div class="space-y-2">
+              <h1 class="text-foreground text-4xl font-bold" translate="no">{{ anime.title }}</h1>
+              <div class="text-muted-foreground flex flex-wrap items-center gap-3">
+                <span>{{ anime.year }}</span>
+                <span>•</span>
+                <span class="border-border rounded border px-2 py-0.5 capitalize" translate="no">{{
+                  anime.status
+                }}</span>
+                <span>•</span>
+                <span class="border-border rounded border px-2 py-0.5 capitalize">{{
+                  anime.type
+                }}</span>
+                <span>•</span>
+                <span class="border-border rounded border px-2 py-0.5 capitalize" translate="no">{{
+                  anime.season
+                }}</span>
+              </div>
+            </div>
+
+            <div class="border-border bg-card rounded-lg border">
+              <div class="p-6">
+                <h2 class="text-foreground mb-4 text-xl font-semibold">Synopsis</h2>
+                <p class="text-muted-foreground leading-relaxed">{{ anime.synopsis }}</p>
+              </div>
+            </div>
+
+            <div class="border-border bg-card rounded-lg border">
+              <div class="p-6">
+                <h2 class="text-foreground mb-4 text-xl font-semibold">Where to Watch</h2>
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  @for (s of anime.streaming; track s.name) {
+                    <div
+                      class="border-primary/20 bg-primary/5 hover:bg-primary/10 flex items-center justify-between rounded-lg border p-4 transition-colors"
+                    >
+                      <span class="text-foreground font-medium" translate="no">{{ s.name }}</span>
+                      <a
+                        class="border-border hover:bg-muted inline-flex h-8 items-center rounded border px-3 text-sm"
+                        [href]="s.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        ▶︎ Watch
+                      </a>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="text-muted-foreground">Anime not found.</div>
+    }
+  </div>
+</section>
+
+<app-footer></app-footer>

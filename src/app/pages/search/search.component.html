@@ -1,0 +1,185 @@
+<app-header></app-header>
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-card border-border mb-8 flex flex-wrap gap-4 rounded-lg border p-4">
+    <div class="flex items-center gap-2">
+      <span class="text-sm font-medium">Sort by:</span>
+      <select
+        class="border-border bg-background text-foreground h-9 rounded border px-2"
+        [(ngModel)]="sortBy"
+      >
+        <option value="relevance">Relevance</option>
+        <option value="rating">Rating</option>
+        <option value="year">Year</option>
+        <option value="title">Title</option>
+      </select>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <span class="text-sm font-medium">Type:</span>
+      <select
+        class="border-border bg-background text-foreground h-9 rounded border px-2"
+        [(ngModel)]="filterType"
+      >
+        <option value="all">All</option>
+        <option value="tv">TV</option>
+        <option value="movie">Movie</option>
+        <option value="ova">OVA</option>
+        <option value="series">Series</option>
+      </select>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <span class="text-sm font-medium">Status:</span>
+      <select
+        class="border-border bg-background text-foreground h-9 rounded border px-2"
+        [(ngModel)]="filterStatus"
+      >
+        <option value="all">All</option>
+        <option value="ongoing">Ongoing</option>
+        <option value="finished">Finished</option>
+        <option value="upcoming">Upcoming</option>
+      </select>
+    </div>
+  </div>
+
+  @if (q) {
+    @if (!loading && displayed.length > 0) {
+      <div class="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        @for (anime of displayed; track anime.mal_id) {
+          <a
+            [routerLink]="['/anime', anime.mal_id]"
+            class="group bg-card border-border overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-lg"
+          >
+            <div class="relative aspect-[3/4] overflow-hidden rounded-t-lg">
+              <img
+                [src]="anime.image_url || '/placeholder.svg'"
+                [alt]="anime.title"
+                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div class="absolute top-2 right-2 rounded bg-black/70 px-2 py-1 text-xs text-white">
+                ★ {{ anime.score }}
+              </div>
+            </div>
+            <div class="p-4">
+              <h3
+                class="group-hover:text-primary mb-2 line-clamp-1 text-lg font-semibold transition-colors"
+                translate="no"
+              >
+                {{ anime.title }}
+              </h3>
+              <div class="text-muted-foreground mb-3 flex items-center gap-2 text-sm">
+                <lucide-angular
+                  name="calendar"
+                  class="mb-1 h-5 w-5 transition-transform duration-300 group-hover:scale-110"
+                ></lucide-angular>
+                @if (anime.year) {
+                  <span>{{ anime.year }}</span>
+                  <span>•</span>
+                }
+                <span>{{ anime.episodes }} eps</span>
+              </div>
+              <div class="mb-3 flex flex-wrap gap-1">
+                <span
+                  translate="no"
+                  class="rounded border px-2 py-0.5 text-xs"
+                  [class.border-green-500]="(anime.status || '').toLowerCase().includes('ongoing')"
+                  [class.text-green-500]="(anime.status || '').toLowerCase().includes('ongoing')"
+                  [class.border-blue-500]="(anime.status || '').toLowerCase().includes('finished')"
+                  [class.text-blue-500]="(anime.status || '').toLowerCase().includes('finished')"
+                  [class.border-red-500]="(anime.status || '').toLowerCase().includes('upcoming')"
+                  [class.text-red-500]="(anime.status || '').toLowerCase().includes('upcoming')"
+                >
+                  {{ anime.status }}
+                </span>
+
+                <span
+                  class="rounded border border-purple-500 px-2 py-0.5 text-xs text-purple-500 capitalize"
+                  >{{ anime.type }}</span
+                >
+                <span
+                  class="rounded border border-orange-500 px-2 py-0.5 text-xs text-orange-500 capitalize"
+                  >{{ anime.season }}</span
+                >
+                @for (g of (anime.genres || []).slice(0, 4); track g.mal_id) {
+                  <span class="bg-secondary/40 border-border rounded border px-2 py-0.5 text-xs">{{
+                    g.name
+                  }}</span>
+                }
+                @if ((anime.genres || []).length > 4) {
+                  <span class="border-border rounded border px-2 py-0.5 text-xs"
+                    >+{{ (anime.genres || []).length - 4 }} more</span
+                  >
+                }
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+
+      <div class="flex items-center justify-center gap-2">
+        <button
+          class="text-muted-foreground hover:text-foreground rounded border px-3 py-1 disabled:opacity-50"
+          [disabled]="page === 1"
+          (click)="changePage(page - 1)"
+        >
+          ‹
+        </button>
+        @if (hasLeftEllipsis) {
+          <button
+            class="text-muted-foreground hover:text-foreground px-2 py-1"
+            (click)="jumpToPageViaPrompt('left')"
+          >
+            …
+          </button>
+        }
+        @for (p of pageWindow; track p) {
+          <button
+            class="rounded border px-3 py-1"
+            [class.bg-primary]="p === page"
+            [class.text-primary-foreground]="p === page"
+            [class.text-muted-foreground]="p !== page"
+            (click)="changePage(p)"
+          >
+            {{ p }}
+          </button>
+        }
+        @if (hasRightEllipsis) {
+          <button
+            class="text-muted-foreground hover:text-foreground px-2 py-1"
+            (click)="jumpToPageViaPrompt('right')"
+          >
+            …
+          </button>
+        }
+        <button
+          class="text-muted-foreground hover:text-foreground rounded border px-3 py-1 disabled:opacity-50"
+          [disabled]="page === totalPages"
+          (click)="changePage(page + 1)"
+        >
+          ›
+        </button>
+      </div>
+    } @else {
+      @if (!loading) {
+        <div class="py-12 text-center">
+          <div class="mb-2 text-5xl">🔎</div>
+          <h3 class="mb-2 text-xl font-semibold">No results found</h3>
+          <p class="text-muted-foreground">Try adjusting your search terms or filters</p>
+        </div>
+      } @else {
+        <div class="py-12 text-center">
+          <p class="text-muted-foreground">Loading...</p>
+        </div>
+      }
+    }
+  } @else {
+    <div class="py-12 text-center">
+      <div class="mb-2 text-5xl">🔎</div>
+      <h3 class="mb-2 text-xl font-semibold">Start your search</h3>
+      <p class="text-muted-foreground">
+        Enter an anime title, genre, or keyword to find what you're looking for
+      </p>
+    </div>
+  }
+</div>
+<app-footer></app-footer>
