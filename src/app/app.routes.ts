@@ -6,7 +6,8 @@ import { AnimeDetailsComponent } from './pages/anime-details/anime-details.compo
 import { AboutComponent } from './pages/about/about.component'
 import { SearchComponent } from './pages/search/search.component'
 import { HelpPageComponent } from './pages/help/help.component'
-import {ReportPageComponent} from './pages/report/report.component';
+import { ReportPageComponent } from './pages/report/report.component'
+import { LoginComponent } from './pages/login/login.component'
 
 export const routes: Routes = [
   {
@@ -39,6 +40,10 @@ export const routes: Routes = [
   },
   {
     path: 'report',
-    component: ReportPageComponent
+    component: ReportPageComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
 ]

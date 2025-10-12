@@ -45,10 +45,12 @@ import {
   Bug,
   AlertTriangle,
   Lightbulb,
-  MessageSquare
+  MessageSquare,
+  Flag,
 } from 'lucide-angular'
 
 export const lucideIcons = {
+  Flag,
   Axe,
   Baby,
   Bookmark,
@@ -95,5 +97,5 @@ export const lucideIcons = {
   Bug,
   AlertTriangle,
   Lightbulb,
-  MessageSquare
+  MessageSquare,
 }

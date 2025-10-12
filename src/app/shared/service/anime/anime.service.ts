@@ -7,12 +7,13 @@ import { PopularResponseDto } from './dto/popular.dto'
 import { ExploreListResponse } from './dto/explore.dto'
 import { GenreSearchResponseDto, GenreTabDto } from './dto/genre.dto'
 import { SearchPaginatedResponseDto } from './dto/search.dto'
+import { environment } from '../../../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AnimeService {
-  private apiUrl = 'http://localhost:3000/anime'
+  private apiUrl = environment.animeApiUrl
 
   constructor(private http: HttpClient) {}
 

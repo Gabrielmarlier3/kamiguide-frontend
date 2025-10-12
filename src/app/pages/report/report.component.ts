@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { LucideAngularModule } from 'lucide-angular'
 import { AppHeaderComponent } from '../../shared/components/header/header.component'
 import { FooterComponent } from '../../shared/components/footer/footer.component'
-import {CreateReportDto, ReportService} from '../../shared/service/report/report.service';
+import { CreateReportDto, ReportService } from '../../shared/service/report/report.service'
 
 type ReportType = 'bug' | 'content' | 'feature' | 'feedback'
 
@@ -18,10 +18,30 @@ export class ReportPageComponent {
   constructor(private reportService: ReportService) {}
 
   reportTypes = [
-    { icon: 'bug', key: 'bug' as ReportType, title: 'Bug Report', description: "Something isn't working correctly" },
-    { icon: 'alert-triangle', key: 'content' as ReportType, title: 'Content Issue', description: 'Incorrect or missing anime information' },
-    { icon: 'lightbulb', key: 'feature' as ReportType, title: 'Feature Request', description: 'Suggest a new feature or improvement' },
-    { icon: 'message-square', key: 'feedback' as ReportType, title: 'General Feedback', description: 'Share your thoughts about KamiGuide' },
+    {
+      icon: 'bug',
+      key: 'bug' as ReportType,
+      title: 'Bug Report',
+      description: "Something isn't working correctly",
+    },
+    {
+      icon: 'alert-triangle',
+      key: 'content' as ReportType,
+      title: 'Content Issue',
+      description: 'Incorrect or missing anime information',
+    },
+    {
+      icon: 'lightbulb',
+      key: 'feature' as ReportType,
+      title: 'Feature Request',
+      description: 'Suggest a new feature or improvement',
+    },
+    {
+      icon: 'message-square',
+      key: 'feedback' as ReportType,
+      title: 'General Feedback',
+      description: 'Share your thoughts about KamiGuide',
+    },
   ]
 
   name = ''
