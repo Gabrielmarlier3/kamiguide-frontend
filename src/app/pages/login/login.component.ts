@@ -34,8 +34,12 @@ export class LoginComponent {
         this.isLoading = false
         this.router.navigate(['/'])
       },
-      error: () => {
+      error: (error) => {
         this.isLoading = false
+        if(error.status === 401) {
+          this.error = 'Invalid email or password.'
+          return
+        }
         this.error = 'Failed to login. Please try again.'
       },
     })
