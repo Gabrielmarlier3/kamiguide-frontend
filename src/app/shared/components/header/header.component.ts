@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { Router, RouterLink } from '@angular/router'
@@ -13,16 +13,14 @@ import { Observable } from 'rxjs'
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class AppHeaderComponent implements OnInit {
-  searchQuery: string = ''
-  isAuth$: Observable<boolean> | undefined
+export class AppHeaderComponent {
+  searchQuery = ''
+  readonly isAuth$: Observable<boolean>
 
   constructor(
     private router: Router,
     private auth: AuthService,
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.isAuth$ = this.auth.isAuthenticated$
   }
 

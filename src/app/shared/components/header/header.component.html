@@ -3,7 +3,6 @@
 >
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
-      <!-- Logo / Brand -->
       <div class="flex items-center gap-8">
         <a routerLink="/">
           <h1 class="text-primary text-2xl font-bold">KamiGuide</h1>
@@ -12,39 +11,27 @@
           <a
             routerLink="/"
             class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+            >Home</a
           >
-            Home
-          </a>
           <a
             routerLink="/explore"
             class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+            >Explore</a
           >
-            Explore
-          </a>
           <a
             routerLink="/calendar"
             class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+            >Calendar</a
           >
-            Calendar
-          </a>
-          <a
-            routerLink="/community"
-            class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-          >
-            Join Community
-          </a>
         </div>
       </div>
 
-      <!-- Right side - Search + Profile -->
       <div class="flex items-center gap-4">
-        <!-- Search -->
         <form (ngSubmit)="handleSearch($event)" class="relative hidden sm:block">
           <lucide-angular
             name="search"
             class="text-muted-foreground absolute top-1/2 left-1.5 h-4 w-4 -translate-y-1/2"
           ></lucide-angular>
-
           <input
             type="text"
             placeholder="Search anime..."
@@ -54,7 +41,9 @@
           />
         </form>
 
-        @if (isAuth$ | async) {
+        @let auth = (isAuth$ | async) ?? false;
+
+        @if (auth) {
           <div class="group relative">
             <button
               type="button"
@@ -65,10 +54,9 @@
               <lucide-angular name="user" class="h-6 w-6"></lucide-angular>
             </button>
 
-            <!-- Dropdown -->
             <div
               role="menu"
-              class="bg-card border-border invisible absolute top-full right-0 mt-2 w-40 rounded-md border opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:-top-2 before:left-0 before:h-2 before:w-full before:content-[''] focus-within:visible focus-within:opacity-100 hover:visible hover:opacity-100"
+              class="bg-card border-border invisible absolute top-full right-0 mt-2 w-44 rounded-md border opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:-top-2 before:left-0 before:h-2 before:w-full before:content-[''] focus-within:visible focus-within:opacity-100 hover:visible hover:opacity-100"
             >
               <!--              <button-->
               <!--                role="menuitem"-->

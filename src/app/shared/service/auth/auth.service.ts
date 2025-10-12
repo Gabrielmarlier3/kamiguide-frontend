@@ -1,4 +1,3 @@
-// src/app/shared/service/auth/auth.service.ts
 import { Injectable, inject, PLATFORM_ID } from '@angular/core'
 import { isPlatformBrowser } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
@@ -36,9 +35,13 @@ export class AuthService {
   private readonly STORAGE_ID = 'kg_idToken'
   private readonly STORAGE_RF = 'kg_refreshToken'
   private readonly STORAGE_EXP = 'kg_expiresAt'
-  private readonly REFRESH_EVERY_MS = 30 * 60 * 1000 // 30min
+  private readonly REFRESH_EVERY_MS = 30 * 60 * 1000
 
-  isAuthenticated$ = new BehaviorSubject<boolean>(false)
+  isAuthenticated$ = new BehaviorSubject<boolean>(true)
+
+  constructor() {
+    this.initFromStorage()
+  }
 
   private getItem(key: string): string | null {
     if (!this.isBrowser) return null

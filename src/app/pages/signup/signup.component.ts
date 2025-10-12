@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
-import {Router, RouterLink} from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
 import { UserService } from '../../shared/service/user/user.service'
 import { AppHeaderComponent } from '../../shared/components/header/header.component'
 import { FooterComponent } from '../../shared/components/footer/footer.component'
@@ -10,7 +10,14 @@ import { LucideAngularModule } from 'lucide-angular'
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, FormsModule, AppHeaderComponent, FooterComponent, LucideAngularModule, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AppHeaderComponent,
+    FooterComponent,
+    LucideAngularModule,
+    RouterLink,
+  ],
   templateUrl: './signup.component.html',
 })
 export class SignupComponent {

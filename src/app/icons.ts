@@ -48,9 +48,11 @@ import {
   MessageSquare,
   Flag,
   Mail,
+  X,
 } from 'lucide-angular'
 
 export const lucideIcons = {
+  X,
   Mail,
   Flag,
   Axe,

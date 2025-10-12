@@ -44,7 +44,7 @@
             />
             <button
               type="button"
-              class="border-border bg-background text-foreground flex items-center justify-center h-10 w-10 rounded border disabled:opacity-50"
+              class="border-border bg-background text-foreground flex h-10 w-10 items-center justify-center rounded border disabled:opacity-50"
               (click)="sendCode()"
               [disabled]="isSendingCode || !email || resendIn > 0"
               title="Send verification code"
@@ -58,7 +58,6 @@
                 ></lucide-angular>
               }
             </button>
-
           </div>
           @if (codeSent) {
             <p class="text-muted-foreground text-xs">Verification code sent to your email</p>

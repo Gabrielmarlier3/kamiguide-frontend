@@ -11,6 +11,7 @@ import { LoginComponent } from './pages/login/login.component'
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component'
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component'
 import { SignupComponent } from './pages/signup/signup.component'
+import { CalendarComponent } from './pages/calendar/calendar.component'
 
 export const routes: Routes = [
   {
@@ -60,5 +61,9 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent,
+  },
+  {
+    path: 'calendar',
+    component: CalendarComponent,
   },
 ]
